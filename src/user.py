@@ -9,6 +9,7 @@ class User:
         self.__name = name
         self.__email = email
         self.__password = User.__encrypt_password(password)
+        self.__logged = False
         User.counter = self.__id
 
     @staticmethod
@@ -25,3 +26,16 @@ class User:
     def __encrypt_password(password):
         salt = bcrypt.gensalt()
         return bcrypt.hashpw(password.encode('utf8'), salt)
+
+    def login(self, email, password):
+        if email == self.__email and self.check_password(password):
+            self.__logged = True
+            print(f'Welcome {self.__name}')
+        else:
+            print('Invalid credentials')
+
+    def check_password(self, password_to_check):
+        return bcrypt.checkpw(password_to_check.encode('utf8'), self.__password)
+
+    def is_logged(self):
+        return self.__logged
