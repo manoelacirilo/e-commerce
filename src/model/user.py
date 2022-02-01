@@ -17,8 +17,7 @@ class User:
     @staticmethod
     def sign_up(name: str, email: str, password: str) -> Optional['User']:
         if name == '' or email == '' or password == '':
-            print('Registration not done')
-            return
+            raise ValueError('Registration not done')
 
         client: User = User(name, email, password)
         print(f'User {client.__name} successfully registered.')
@@ -38,6 +37,18 @@ class User:
 
     def check_password(self, password_to_check: str) -> bool:
         return bcrypt.checkpw(password_to_check.encode('utf8'), self.__password)
+
+    @property
+    def id(self) -> int:
+        return self.__id
+
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    @property
+    def email(self) -> str:
+        return self.__email
 
     @property
     def logged(self) -> bool:

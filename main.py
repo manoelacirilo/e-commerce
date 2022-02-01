@@ -1,4 +1,4 @@
-from src.user import User
+from src.model.user import User
 
 
 def main() -> None:
