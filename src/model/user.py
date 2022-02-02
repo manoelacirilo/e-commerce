@@ -20,7 +20,7 @@ class User:
             raise ValueError('Registration not done')
 
         client: User = User(name, email, password)
-        print(f'User {client.__name} successfully registered.')
+
         return client
 
     @staticmethod
@@ -28,12 +28,12 @@ class User:
         salt: bytes = bcrypt.gensalt()
         return bcrypt.hashpw(password.encode('utf8'), salt)
 
-    def login(self, email: str, password: str) -> None:
+    def login(self, email: str, password: str) -> str:
         if email == self.__email and self.check_password(password):
             self.logged = True
-            print(f'Welcome {self.__name}')
+            return f'Welcome {self.__name}'
         else:
-            print('Invalid credentials')
+            raise ValueError('Invalid credentials')
 
     def check_password(self, password_to_check: str) -> bool:
         return bcrypt.checkpw(password_to_check.encode('utf8'), self.__password)
@@ -57,3 +57,6 @@ class User:
     @logged.setter
     def logged(self, new_logged: bool) -> None:
         self.__logged = new_logged
+
+    def __str__(self) -> str:
+        return self.__name
