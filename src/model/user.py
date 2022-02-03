@@ -58,5 +58,11 @@ class User:
     def logged(self, new_logged: bool) -> None:
         self.__logged = new_logged
 
+    def profile(self) -> str:
+        if self.logged:
+            return f'Id: {self.id}\nName: {self.__name}\nEmail: {self.__email}'
+
+        raise ValueError('Unauthorized')
+
     def __str__(self) -> str:
         return self.__name
