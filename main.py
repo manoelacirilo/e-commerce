@@ -9,6 +9,7 @@ def main() -> None:
 
     client.login(email='kida123@gmail.com', password='milo')
     # client.login(email='123@gmail.com', password='mi')
+    
     products = populate_products()
     for product in products:
         print(f'Product: {product.name} registered. Price: {product.price}')

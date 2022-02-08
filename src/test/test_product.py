@@ -12,6 +12,12 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(product.price, 10.0)
         self.assertEqual(product.id, Product.counter)
 
+    def test_invalid_register(self):
+        with self.assertRaises(ValueError) as context:
+            Product.register(name='', price=-1)
+
+        self.assertTrue('Invalid product data' in str(context.exception))
+
 
 if __name__ == '__main__':
     unittest.main()
