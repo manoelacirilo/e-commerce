@@ -22,6 +22,14 @@ class UserService:
         salt: bytes = bcrypt.gensalt()
         return bcrypt.hashpw(password.encode('utf8'), salt)
 
+    @staticmethod
+    def get_users():
+        return user_repository.get_all()
+
+    @staticmethod
+    def get_user(user_id):
+        return user_repository.get_user(user_id)
+
     # def login(self, email: str, password: str) -> str:
     #     if email == self.__email and self.check_password(password):
     #         self.logged = True

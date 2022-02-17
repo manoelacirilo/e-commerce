@@ -18,6 +18,12 @@ class UserRepository:
         except Exception as e:
             raise e
 
+    def get_all(self):
+        return self.db.session.query(User).all()
+
+    def get_user(self, user_id):
+        return self.db.session.query(User).get(user_id)
+
 # args = ['Milo', 'milo@gmail.com', '1234']
 # name=args[0], email=args[1], password=args[2]
 

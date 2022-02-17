@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 
-from e_commerce.schema.user_schema import user_schema
+from e_commerce.schema.user_schema import user_schema, users_schema
 from e_commerce.service.user_service import UserService
 
 
@@ -10,8 +10,10 @@ class UsersController(Resource):
     parser.add_argument('email')
     parser.add_argument('password')
 
-    def get(self):
-        return {'teste': 'hello'}
+    @staticmethod
+    def get():
+        users = UserService.get_users()
+        return users_schema.dump(users)
 
     @staticmethod
     def post():
