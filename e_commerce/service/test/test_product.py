@@ -1,6 +1,6 @@
 import unittest
 
-from src.model.product import Product
+from e_commerce.model.product import Product
 
 
 class TestProduct(unittest.TestCase):

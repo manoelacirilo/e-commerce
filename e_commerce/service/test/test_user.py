@@ -1,6 +1,6 @@
 import unittest
 
-from src.model.user import User
+from e_commerce.model.user import User
 
 
 class TestUser(unittest.TestCase):
