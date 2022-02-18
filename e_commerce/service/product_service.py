@@ -1,11 +1,13 @@
-from e_commerce.model.product import Product
+from e_commerce.repository import product_repository
 
 
 class ProductService:
     @staticmethod
-    def register(name: str, price: float) -> 'Product':
-        if name == '' or price < 0:
+    def register(name: str, price: float):
+        if name == '' or price < 0.0:
             raise ValueError('Invalid product data')
 
-        product: Product = Product(name, price)
-        return product
+        return product_repository.add(
+            name=name,
+            price=price
+        )

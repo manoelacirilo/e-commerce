@@ -6,7 +6,7 @@ class UserRepository:
     def __init__(self, db):
         self.db = db
 
-    # INSERT INTO user (name, email, password) VALUES ('Milo', 'milo@gmail.com', '1234');
+    # INSERT INTO "user" (name, email, password) VALUES ('Milo', 'milo@gmail.com', '1234');
     def add(self, **kwargs):
         user = User(name=kwargs['name'], email=kwargs['email'], password=kwargs['password'])
 
@@ -18,9 +18,11 @@ class UserRepository:
         except Exception as e:
             raise e
 
+    # SELECT * FROM "user";
     def get_all(self):
         return self.db.session.query(User).all()
 
+    # SELECT * FROM "user" WHERE id = 1;
     def get_user(self, user_id):
         return self.db.session.query(User).get(user_id)
 
