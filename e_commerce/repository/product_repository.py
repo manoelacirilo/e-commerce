@@ -16,3 +16,9 @@ class ProductRepository:
             return product
         except Exception as e:
             raise e
+
+    def get_all(self):
+        return self.db.session.query(Product).all()
+
+    def get_product(self, product_id):
+        return self.db.session.query(Product).get(product_id)

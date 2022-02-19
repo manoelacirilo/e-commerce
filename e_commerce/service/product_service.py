@@ -11,3 +11,11 @@ class ProductService:
             name=name,
             price=price
         )
+
+    @staticmethod
+    def get_products():
+        return product_repository.get_all()
+
+    @staticmethod
+    def get_product(product_id):
+        return product_repository.get_product(product_id)
