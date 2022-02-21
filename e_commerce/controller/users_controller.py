@@ -34,3 +34,13 @@ class UsersController(Resource):
     def get_one(user_id):
         user = UserService.get_user(user_id)
         return user_schema.dump(user)
+
+    @staticmethod
+    @blueprint.route('/users/login', methods=['POST'])
+    def login():
+        try:
+            args = UsersController.parser.parse_args()
+            token = UserService.authenticate_user(email=args['email'], password=args['password'])
+            return {'token': token.decode('ascii')}
+        except Exception as e:
+            return {'error': str(e)}, 401

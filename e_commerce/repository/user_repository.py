@@ -26,6 +26,9 @@ class UserRepository:
     def get_user(self, user_id):
         return self.db.session.query(User).get(user_id)
 
+    def get_user_by_email(self, email):
+        return self.db.session.query(User).filter_by(email=email).first()
+
 # args = ['Milo', 'milo@gmail.com', '1234']
 # name=args[0], email=args[1], password=args[2]
 
