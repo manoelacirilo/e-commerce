@@ -1,7 +1,7 @@
 import bcrypt
 from flask import current_app
 from itsdangerous import (TimedJSONWebSignatureSerializer
-                          as Serializer)
+                          as Serializer, BadSignature, SignatureExpired)
 
 # from e_commerce.model.user import User
 from e_commerce.repository import user_repository
@@ -48,6 +48,20 @@ class UserService:
     def __generate_auth_token(user_id, expiration=600):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': user_id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None  # valid token, but expired
+        except BadSignature:
+            return None  # invalid token
+        user = user_repository.get_user(data['id'])
+        if not user:
+            raise ValueError('Invalid token')
+        return user
 
     # def login(self, email: str, password: str) -> str:
     #     if email == self.__email and self.check_password(password):

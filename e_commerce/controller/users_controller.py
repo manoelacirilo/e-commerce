@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_restful import Resource, reqparse
 
+from e_commerce.controller import auth
 from e_commerce.schema.user_schema import user_schema, users_schema
 from e_commerce.service.user_service import UserService
 
@@ -44,3 +45,14 @@ class UsersController(Resource):
             return {'token': token.decode('ascii')}
         except Exception as e:
             return {'error': str(e)}, 401
+
+    @staticmethod
+    @blueprint.route('/users/profile')
+    @auth.login_required
+    def profile():
+        return {'test': 'one'}
+
+    @staticmethod
+    @auth.verify_token
+    def verify_token(token):
+        return UserService.verify_auth_token(token)
