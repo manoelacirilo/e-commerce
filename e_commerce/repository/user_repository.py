@@ -24,7 +24,7 @@ class UserRepository:
 
     # SELECT * FROM "user" WHERE id = 1;
     def get_user(self, user_id):
-        return self.db.session.query(User).get(user_id)
+        return self.db.session.query(User).get_or_404(user_id)
 
     def get_user_by_email(self, email):
         return self.db.session.query(User).filter_by(email=email).first()

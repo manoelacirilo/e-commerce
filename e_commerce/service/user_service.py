@@ -3,7 +3,6 @@ from flask import current_app
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
 
-# from e_commerce.model.user import User
 from e_commerce.repository import user_repository
 
 
@@ -14,10 +13,12 @@ class UserService:
         if name == '' or email == '' or password == '':
             raise ValueError('Registration not done')
 
+        encrypted_password = UserService.__encrypt_password(password)
+
         return user_repository.add(
             name=name,
             email=email,
-            password=UserService.__encrypt_password(password)
+            password=encrypted_password
         )
 
     @staticmethod
@@ -36,8 +37,12 @@ class UserService:
     @staticmethod
     def authenticate_user(email, password):
         user = user_repository.get_user_by_email(email)
-        if not user or not UserService.__check_password(password_to_check=password, user_password=user.password):
+
+        password_ok = UserService.__check_password(password_to_check=password, user_password=user.password)
+
+        if not user or not password_ok:
             raise ValueError('Email or Password Invalid')
+
         return UserService.__generate_auth_token(user.id)
 
     @staticmethod
@@ -58,20 +63,9 @@ class UserService:
             return None  # valid token, but expired
         except BadSignature:
             return None  # invalid token
+
         user = user_repository.get_user(data['id'])
         if not user:
             raise ValueError('Invalid token')
+
         return user
-
-    # def login(self, email: str, password: str) -> str:
-    #     if email == self.__email and self.check_password(password):
-    #         self.logged = True
-    #         return f'Welcome {self.__name}'
-    #     else:
-    #         raise ValueError('Invalid credentials')
-
-    #
-    # def profile(self) -> str:
-    #     if self.logged:
-    #         return f'Id: {self.id}\nName: {self.__name}\nEmail: {self.__email}'
-    #     raise ValueError('Unauthorized')

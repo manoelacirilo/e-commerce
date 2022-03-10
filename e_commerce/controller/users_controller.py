@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_restful import Resource, reqparse
 
 from e_commerce.controller import auth
@@ -33,8 +33,11 @@ class UsersController(Resource):
     @staticmethod
     @blueprint.route('/users/<user_id>', methods=['GET'])
     def get_one(user_id):
-        user = UserService.get_user(user_id)
-        return user_schema.dump(user)
+        try:
+            user = UserService.get_user(user_id)
+            return user_schema.dump(user)
+        except Exception as e:
+            return {'error': str(e)}, 404
 
     @staticmethod
     @blueprint.route('/users/login', methods=['POST'])
@@ -50,7 +53,9 @@ class UsersController(Resource):
     @blueprint.route('/users/profile')
     @auth.login_required
     def profile():
-        return {'test': 'one'}
+        token = request.headers['Authorization'].split(' ')[1]
+        user = UsersController.verify_token(token)
+        return user_schema.dump(user)
 
     @staticmethod
     @auth.verify_token

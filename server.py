@@ -8,6 +8,7 @@ port = 5100
 
 if sys.argv.__len__() > 1:
     port = sys.argv[1]
+
 print("Api running on port : {} ".format(port))
 
 

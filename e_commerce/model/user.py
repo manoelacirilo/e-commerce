@@ -11,7 +11,7 @@ class User(db.Model):
     __table_args__ = (UniqueConstraint('email', name='_email_uc'),)
 
     def __str__(self) -> str:
-        return self.__name
+        return f'<User(id={self.id}, name={self.name} email={self.email})>'
 
     def __repr__(self):
         return f'<User(id={self.id}, name={self.name} email={self.email})>'
