@@ -10,9 +10,9 @@ blueprint = Blueprint('users_controller', __name__)
 
 class UsersController(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name')
-    parser.add_argument('email')
-    parser.add_argument('password')
+    parser.add_argument(reqparse.Argument('name', store_missing=False))
+    parser.add_argument(reqparse.Argument('email', store_missing=False))
+    parser.add_argument(reqparse.Argument('password', store_missing=False))
 
     @staticmethod
     @blueprint.route('/users', methods=['GET'])
@@ -56,6 +56,18 @@ class UsersController(Resource):
         token = request.headers['Authorization'].split(' ')[1]
         user = UsersController.verify_token(token)
         return user_schema.dump(user)
+
+    @staticmethod
+    @blueprint.route('/users/edit_profile', methods=['PUT'])
+    @auth.login_required
+    def edit_profile():
+        args = UsersController.parser.parse_args()
+
+        token = request.headers['Authorization'].split(' ')[1]
+        user = UsersController.verify_token(token)
+
+        updated_user = UserService.edit_profile(user.id, **args)
+        return user_schema.dump(updated_user)
 
     @staticmethod
     @auth.verify_token

@@ -69,3 +69,12 @@ class UserService:
             raise ValueError('Invalid token')
 
         return user
+
+    @staticmethod
+    def edit_profile(user_id, **kwargs):
+        # kwargs = { 'name': 'Alesson', 'password': '0987' }
+        if 'password' in kwargs:
+            kwargs['password'] = UserService.__encrypt_password(kwargs['password'])
+            # kwargs = {'name': 'Alesson', 'password': '012390129301293012930129301293'}
+
+        return user_repository.edit_user(user_id, **kwargs)

@@ -29,6 +29,13 @@ class UserRepository:
     def get_user_by_email(self, email):
         return self.db.session.query(User).filter_by(email=email).first()
 
+    def edit_user(self, user_id, **kwargs):
+        # { 'name': 'Alesson', 'password': 'iuhc9udcaiosdaosidj' }
+        self.db.session.query(User).filter_by(id=user_id).update(kwargs)
+        self.db.session.commit()
+
+        return self.get_user(user_id)
+
 # args = ['Milo', 'milo@gmail.com', '1234']
 # name=args[0], email=args[1], password=args[2]
 
