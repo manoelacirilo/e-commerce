@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from flask_restful import Resource, reqparse
 
 from e_commerce.controller import auth
@@ -53,20 +53,15 @@ class UsersController(Resource):
     @blueprint.route('/users/profile')
     @auth.login_required
     def profile():
-        token = request.headers['Authorization'].split(' ')[1]
-        user = UsersController.verify_token(token)
-        return user_schema.dump(user)
+        return user_schema.dump(auth.current_user())
 
     @staticmethod
     @blueprint.route('/users/edit_profile', methods=['PUT'])
     @auth.login_required
     def edit_profile():
         args = UsersController.parser.parse_args()
+        updated_user = UserService.edit_profile(auth.current_user().id, **args)
 
-        token = request.headers['Authorization'].split(' ')[1]
-        user = UsersController.verify_token(token)
-
-        updated_user = UserService.edit_profile(user.id, **args)
         return user_schema.dump(updated_user)
 
     @staticmethod
