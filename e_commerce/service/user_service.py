@@ -38,9 +38,12 @@ class UserService:
     def authenticate_user(email, password):
         user = user_repository.get_user_by_email(email)
 
+        if not user:
+            raise ValueError('Email or Password Invalid')
+
         password_ok = UserService.__check_password(password_to_check=password, user_password=user.password)
 
-        if not user or not password_ok:
+        if not password_ok:
             raise ValueError('Email or Password Invalid')
 
         return UserService.__generate_auth_token(user.id)

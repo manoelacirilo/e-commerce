@@ -1,3 +1,5 @@
+# https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/
+
 from e_commerce.model.user import User
 
 
@@ -26,6 +28,7 @@ class UserRepository:
     def get_user(self, user_id):
         return self.db.session.query(User).get_or_404(user_id)
 
+    # Select * from "user" where email = 'bla';
     def get_user_by_email(self, email):
         return self.db.session.query(User).filter_by(email=email).first()
 
