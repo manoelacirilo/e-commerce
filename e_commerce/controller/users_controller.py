@@ -50,7 +50,7 @@ class UsersController(Resource):
             return {'error': str(e)}, 401
 
     @staticmethod
-    @blueprint.route('/users/profile')
+    @blueprint.route('/users/profile', methods=['GET'])
     @auth.login_required
     def profile():
         return user_schema.dump(auth.current_user())
