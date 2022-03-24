@@ -1,11 +1,29 @@
-from e_commerce.repository import cart_repository, item_repository
+from e_commerce.model.cart import Cart
+from e_commerce.repository import cart_repository, item_repository, product_repository, user_repository
 
 
 class CartService:
     @staticmethod
-    def add_to_cart(product_id, quantity, user_id):
-        cart = cart_repository.get_by_user_id(user_id)
+    def add_to_cart(product_id: int, quantity: int, user_id: int) -> Cart:
+        """
+        Adds product to cart by creating item and cart (if it doesn't exist)
+        :param product_id: int
+        :param quantity: int
+        :param user_id: int
+        :return: Cart
+        """
+        if quantity < 1:
+            raise ValueError('Invalid quantity')
 
+        product = product_repository.get_product(product_id)
+        if not product:
+            raise ValueError('Product not found')
+
+        user = user_repository.get_user_silent(user_id)
+        if not user:
+            raise ValueError('User not found')
+
+        cart = cart_repository.get_by_user_id(user_id)
         if not cart:
             cart = cart_repository.add(user_id=user_id)
 
