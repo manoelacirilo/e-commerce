@@ -19,6 +19,9 @@ class CartRepository:
         except Exception as e:
             raise e
 
+    def get_by_user_id(self, user_id):
+        return self.db.session.query(Cart).filter_by(user_id=user_id).first()
+
     def get_all(self):
         return self.db.session.query(Cart).all()
 
