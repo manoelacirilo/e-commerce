@@ -9,7 +9,7 @@ from e_commerce.service.product_service import ProductService
 from e_commerce.service.user_service import UserService
 
 
-class CartTest(TestCase):
+class TestCart(TestCase):
 
     def create_app(self):
         app = Flask(__name__)
