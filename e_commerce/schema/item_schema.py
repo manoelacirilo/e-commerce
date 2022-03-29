@@ -5,7 +5,7 @@ from e_commerce.schema.product_schema import ProductSchema
 
 class ItemSchema(ma.Schema):
     class Meta:
-        fields = ("id", "quantity")
+        fields = ("id", "quantity", "product")
         model = Item
 
     product = ma.Nested(ProductSchema)

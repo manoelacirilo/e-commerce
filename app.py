@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
+from e_commerce.controller.carts_controller import blueprint as carts_controller_blueprint
 from e_commerce.controller.products_controller import blueprint as products_controller_blueprint
 from e_commerce.controller.users_controller import blueprint as users_controller_blueprint
 
@@ -10,5 +11,6 @@ app.config.from_object('config')
 
 app.register_blueprint(users_controller_blueprint)
 app.register_blueprint(products_controller_blueprint)
+app.register_blueprint(carts_controller_blueprint)
 
 api = Api(app)
