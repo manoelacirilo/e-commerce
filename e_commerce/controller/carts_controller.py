@@ -13,8 +13,6 @@ class CartsController(Resource):
     parser.add_argument(reqparse.Argument('product_id', store_missing=False, type=int))
     parser.add_argument(reqparse.Argument('quantity', store_missing=False, type=int))
 
-    # parser.add_argument(reqparse.Argument('password', store_missing=False))
-
     @staticmethod
     @blueprint.route('/add_to_cart', methods=['POST'])
     @auth.login_required

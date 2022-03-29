@@ -61,6 +61,22 @@ class TestCart(TestCase):
         self.assertEqual(existing_cart.items[1].quantity, 5)
         self.assertEqual(existing_cart.items[1].product, product2)
 
+    def test_should_increase_quantity_if_product_is_readded(self):
+        """
+        Should increase item quantity if a product is added again
+        """
+
+        # given happens on setUp
+        # when
+        CartService.add_to_cart(product_id=self.product.id, quantity=1, user_id=self.user.id)
+        cart = CartService.add_to_cart(product_id=self.product.id, quantity=2, user_id=self.user.id)
+
+        # then
+        self.assertEqual(cart.items[0].quantity, 3)
+        self.assertEqual(cart.user, self.user)
+        self.assertEqual(cart.items[0].product, self.product)
+        self.assertEqual(len(cart.items), 1)
+
     def test_should_raise_error_if_invalid_product(self):
         """
         Should raise ValueError if product doesn't exist on database
