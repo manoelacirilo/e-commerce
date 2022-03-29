@@ -7,6 +7,12 @@ class Item(db.Model):
     product_id = db.Column('product_id', db.Integer, db.ForeignKey('product.id'), nullable=False)
     cart_id = db.Column('cart_id', db.Integer, db.ForeignKey('cart.id'), nullable=False)
 
+    def __str__(self) -> str:
+        return f'<Item(id={self.id}, quantity={self.quantity} product_id={self.product_id})>'
+
+    def __repr__(self) -> str:
+        return f'<Item(id={self.id}, quantity={self.quantity} product_id={self.product_id})>'
+
 # my_user = User(id=1)
 # print(my_user.id) => 1
 

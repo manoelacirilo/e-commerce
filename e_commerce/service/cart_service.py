@@ -27,6 +27,11 @@ class CartService:
         if not cart:
             cart = cart_repository.add(user_id=user_id)
 
-        item_repository.add(quantity=quantity, product_id=product_id, cart_id=cart.id)
+        item = item_repository.get_item_by_product_and_cart(product_id, cart.id)
+        if item:
+            new_quantity = quantity + item.quantity
+            item_repository.edit_item(item.id, quantity=new_quantity)
+        else:
+            item_repository.add(quantity=quantity, product_id=product_id, cart_id=cart.id)
 
         return cart
