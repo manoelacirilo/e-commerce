@@ -1,24 +1,18 @@
 import unittest
 
-from flask import Flask
 from flask_testing import TestCase
 
 from e_commerce.model import db
 from e_commerce.service.cart_service import CartService
 from e_commerce.service.product_service import ProductService
+from e_commerce.service.test import create_test_app
 from e_commerce.service.user_service import UserService
 
 
-class TestCart(TestCase):
+class TestAddToCart(TestCase):
 
     def create_app(self):
-        app = Flask(__name__)
-        app.config['TESTING'] = True
-        app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://manoelacirilo:1907@localhost/e_commerce_test'
-        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-        db.init_app(app)
-        app.app_context().push()
-        return app
+        return create_test_app()
 
     def setUp(self):
         db.create_all()

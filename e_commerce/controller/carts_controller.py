@@ -23,3 +23,14 @@ class CartsController(Resource):
             return cart_schema.dump(cart), 201
         except Exception as e:
             return {'error': str(e)}, 400
+
+    @staticmethod
+    @blueprint.route('/get_cart', methods=['GET'])
+    @auth.login_required
+    def get_cart():
+        try:
+            cart = CartService.get_cart(user_id=auth.current_user().id)
+            return cart_schema.dump(cart), 200
+        except Exception as e:
+            return {'error': str(e)}, 400
+

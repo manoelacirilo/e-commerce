@@ -19,9 +19,7 @@ class CartService:
         if not product:
             raise ValueError('Product not found')
 
-        user = user_repository.get_user_silent(user_id)
-        if not user:
-            raise ValueError('User not found')
+        CartService._find_user(user_id)
 
         cart = cart_repository.get_by_user_id(user_id)
         if not cart:
@@ -35,3 +33,15 @@ class CartService:
             item_repository.add(quantity=quantity, product_id=product_id, cart_id=cart.id)
 
         return cart
+
+    @staticmethod
+    def get_cart(user_id):
+        CartService._find_user(user_id)
+
+        return cart_repository.get_by_user_id(user_id)
+
+    @staticmethod
+    def _find_user(user_id):
+        user = user_repository.get_user_silent(user_id)
+        if not user:
+            raise ValueError('User not found')
