@@ -34,6 +34,8 @@ class TestGetCart(TestCase):
         self.assertEqual(cart.items[0].quantity, 1)
         self.assertEqual(cart.user, self.user)
         self.assertEqual(cart.items[0].product, self.product)
+        self.assertEqual(cart.items_count, 1)
+        self.assertEqual(cart.subtotal, 100)
 
     def test_should_raise_error_if_invalid_user(self):
         invalid_user_id = 99

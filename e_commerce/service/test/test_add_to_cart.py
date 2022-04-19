@@ -32,6 +32,8 @@ class TestAddToCart(TestCase):
         self.assertEqual(cart.items[0].quantity, 10)
         self.assertEqual(cart.user, self.user)
         self.assertEqual(cart.items[0].product, self.product)
+        self.assertEqual(cart.items_count, 1)
+        self.assertEqual(cart.subtotal, 1000)
 
     def test_should_add_to_existing_cart(self):
         """
@@ -54,6 +56,8 @@ class TestAddToCart(TestCase):
 
         self.assertEqual(existing_cart.items[1].quantity, 5)
         self.assertEqual(existing_cart.items[1].product, product2)
+        self.assertEqual(existing_cart.items_count, 2)
+        self.assertEqual(existing_cart.subtotal, 1750)
 
     def test_should_increase_quantity_if_product_is_readded(self):
         """
@@ -70,6 +74,8 @@ class TestAddToCart(TestCase):
         self.assertEqual(cart.user, self.user)
         self.assertEqual(cart.items[0].product, self.product)
         self.assertEqual(len(cart.items), 1)
+        self.assertEqual(cart.items_count, 1)
+        self.assertEqual(cart.subtotal, 300)
 
     def test_should_raise_error_if_invalid_product(self):
         """

@@ -5,7 +5,7 @@ from e_commerce.schema.item_schema import ItemSchema
 
 class CartSchema(ma.Schema):
     class Meta:
-        fields = ("id", "items")
+        fields = ("id", "items", "items_count", "subtotal")
         model = Cart
 
     items = ma.Nested(ItemSchema, many=True)
